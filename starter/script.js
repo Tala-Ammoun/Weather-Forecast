@@ -1,43 +1,48 @@
+Object.keys($(".cityNames")).forEach((element) => {
+  if (element < 6) {
+  $($(".cityNames")[element]).attr("data-index", element)}
+  let cityIndex = $($(".cityNames")[element]).attr("data-index")
+$(".cityNames").eq(cityIndex).on("click", function(event) {
+  cityText = $(".cityNames").eq(cityIndex).text()
+  console.log(cityText)
+  $("#cityName").text(cityText + ": ")
+})
+})
+
 setInterval(function () {
-  var today = moment();
-  document.querySelector("#currentDay").textContent = today.format("D MMM YYYY");
+  let today = moment();
+  document.querySelector("#todayDate").textContent = today.format("DD/MM/YYYY");
   })
 
-/**
- * pulls information from the form and build the query URL
- * @returns {string} URL for NYT API based on form inputs 
- */
+
+
+// setInterval(function () {
+//   let today = moment();
+//   for (let i = 0; i < 5; i++) {
+//   document.querySelector(".card-title").textContent[i] = today.format("DD/MM/YYYY" + 1);}
+//   })
 
 function buildQueryURL() {
-  // queryURL is the url we'll use to query the API
-  var queryURL = "https://api.openweathermap.org/data/2.5/forecast?"; //this is a string
+  let queryURL = "https://api.openweathermap.org/data/2.5/forecast?"; 
+  let queryParams = { "api-key": "8df441dea99913b147bc9d9c47561bdb" }; 
 
-  // Begin building an object to contain our API call's query parameters
-  // Set the API key
-  var queryParams = { "api-key": "8df441dea99913b147bc9d9c47561bdb" }; //this is an object
+  console.log(WeatherData);
 
-  // Grab text the user typed into the search input, add to the queryParams object
-  queryParams.q = $("#search-term") 
-    .val() //grabs value entered into search-term
-    .trim(); //returns a new string without whitespaces from both its beginning and end.
+  queryParams.q = $("#search-input") 
+    .val() 
+    .trim(); 
 
-  // If the user provides a startYear, include it in the queryParams object
-  var startYear = $("#start-year")
-    .val()
+  let temperature = $("#temp")
+    .text()
     .trim();
 
-  if (parseInt(startYear)) { //if the value in the start-year textbox is parsed from a string into an integer
-    queryParams.begin_date = startYear + "0101"; 
-  }
-
-  // If the user provides an endYear, include it in the queryParams object
-  var endYear = $("#end-year") 
-    .val()
+  let wind = $("#wind") 
+    .text()
     .trim();
-
-  if (parseInt(endYear)) { //if the value in the end-year textbox is parsed from a string into an integer
-    queryParams.end_date = endYear + "0101"; 
-  }
+  
+  let humidity = $("#humidity") 
+    .text()
+    .trim();
 
   // Logging the URL so we have access to it for troubleshooting
   console.log("---------------\nURL: " + queryURL + "\n---------------");
@@ -45,18 +50,13 @@ function buildQueryURL() {
   return queryURL + $.param(queryParams);
 }
 
-/**
- * takes API data (JSON/object) and turns it into elements on the page
- * @param {object} NYTData - object containing NYT API data
- */
 function updatePage(NYTData) {
   // Get from the form the number of results to display
   // API doesn't have a "limit" parameter, so we have to do this ourselves
   var numArticles = $("#article-count").val();
 
   // Log the NYTData to console, where it will show up as an object
-  console.log(NYTData);
-  console.log("------------------------------------");
+  
 
   // Loop through and build elements for the defined number of articles
   for (var i = 0; i < numArticles; i++) {
@@ -129,7 +129,7 @@ function clear() {
 // ==========================================================
 
 // .on("click") function associated with the Search Button
-$("#run-search").on("click", function(event) {
+$(".search-btn").on("click", function(event) {
   // This line allows us to take advantage of the HTML "submit" property
   // This way we can hit enter on the keyboard and it registers the search
   // (in addition to clicks). Prevents the page from reloading on form submit.

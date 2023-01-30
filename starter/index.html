@@ -36,18 +36,28 @@
           </div>
         </form>
         <div class="list-group" id="history">
-          <button type="button" class="btn btn-secondary btn-lg btn-block">Berlin</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block">Paris</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block">Edinburgh</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block">Madrid</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block">Birmingham</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block">London</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Berlin</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Paris</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Edinburgh</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Madrid</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Birmingham</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">London</button>
         </div>
       </aside>
 
       <div class="col">
       <div class="row today">
-        <h2> London: today's date and temperature ⛅</h2>
+        <div class="col-3">
+        <h2 id="cityName">  </h2>
+        </div>
+        <div class="col-3">
+        <h2 id="todayDate">  </h2>
+        </div>
+        <div class="col-12">
+          <h4 id="temp">Temp: </h4>
+          <h4 id="wind">Wind: </h4>
+          <h4 id="humidity">Humidity: </h4>
+        </div>
       </div>
 
       <div class="row">
