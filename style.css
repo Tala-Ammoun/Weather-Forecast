@@ -1,0 +1,41 @@
+/* * {
+    -webkit-border-radius: 4px !important;
+       -moz-border-radius: 4px !important;
+            border-radius: 4px !important;
+  }
+.panel-body{
+    padding: 35px;
+}
+.panel-heading{
+    background-color: rgb(55, 54, 54) !important;
+    border-color: rgb(55, 54, 54) !important;
+}
+.panel-primary{
+    border-color: rgb(55, 54, 54) !important;
+}
+
+.articleNumber{
+    
+} */
+
+.today {
+    border: solid black;
+    margin-top:1%;
+    padding: 1%;
+    height:250px;
+    width:99.8%;
+}
+
+#search-input{
+    margin-bottom: 2%;
+}
+
+.col-2 {
+    margin-right: 3%;
+}
+
+.card-body{
+    background-color:#1e1e47;    
+    color:white;
+    padding: 0%;
+}
