@@ -1,153 +1,114 @@
+let apiURL = "https://api.openweathermap.org/data/2.5/forecast?";
+let key = "&appid=8df441dea99913b147bc9d9c47561bdb";
+let icon = "http://openweathermap.org/img/w/"
+let queryURL
+
+$(".search-btn").on("click", function () {
+  $("#cityName").empty()
+  $("#temp").empty();
+  $("#wind").empty();
+  $("#humidity").empty();
+  $("#icon").empty();
+
+  searchInput = $("#search-input").val();
+  queryURL = apiURL + "q=" + searchInput + "&limit=1" + key;
+  console.log(queryURL)
+
+  fetch(queryURL)
+    .then(response => response.json())
+    .then(function (response) {
+      console.log(response)
+      console.log(response.city.name)
+      $("#cityName").append(response.city.name + ": ")
+
+      setInterval(function () {
+        let today = moment();
+        document.querySelector("#todayDate").textContent = today.format("DD/MM/YYYY");
+      })
+
+      let temp = response.list[0].main.temp - 273.15 //C = temp – 273.15
+      let temperature = Math.round(temp.toFixed(2))
+      console.log(temperature + "°C")
+      $("#temp").append("Temp: " + temperature + "°C")
+
+      console.log(response.list[0].main.humidity + "%")
+      $("#wind").append("Wind: " + response.list[0].main.humidity + "%")
+
+      console.log(response.list[0].wind.speed + "KPH")
+      $("#humidity").append("Humidity: " + response.list[0].wind.speed + "KPH")
+
+      let iconURL = icon + response.list[0].weather[0].icon + ".png"
+      fetch(iconURL)
+        .then(function (result) {
+          let icon = document.createElement("img");
+          icon.src = result.url;
+          $("#icon").append(icon)
+          //$(".icon").append(response.list[0].weather[0].icon)
+
+        })
+    })
+})
+
 Object.keys($(".cityNames")).forEach((element) => {
   if (element < 6) {
-  $($(".cityNames")[element]).attr("data-index", element)}
+    $($(".cityNames")[element]).attr("data-index", element)
+  }
   let cityIndex = $($(".cityNames")[element]).attr("data-index")
-$(".cityNames").eq(cityIndex).on("click", function(event) {
-  cityText = $(".cityNames").eq(cityIndex).text()
-  console.log(cityText)
-  $("#cityName").text(cityText + ": ")
+  $(".cityNames").eq(cityIndex).on("click", function (event) {
+    event.preventDefault();
+    let cityText = $(".cityNames").eq(cityIndex).text()
+    cityURL = apiURL + "q=" + cityText + "&limit=1" + key;
+    $("#cityName").empty()
+    $("#temp").empty();
+    $("#wind").empty();
+    $("#humidity").empty();
+    $("#icon").empty();
+    
+  fetch(cityURL)
+  .then(response => response.json())
+  .then(function (response) {
+  $("#cityName").append(response.city.name + ": ")
+      setInterval(function () {
+      let today = moment();
+      document.querySelector("#todayDate").textContent = today.format("DD/MM/YYYY");
+        })
+
+      let temp = response.list[0].main.temp - 273.15 //C = temp – 273.15
+      let temperature = Math.round(temp.toFixed(2))
+      console.log(temperature + "°C")
+      $("#temp").append("Temp: " + temperature + "°C")
+
+      console.log(response.list[0].main.humidity + "%")
+      $("#wind").append("Wind: " + response.list[0].main.humidity + "%")
+
+      console.log(response.list[0].wind.speed + "KPH")
+      $("#humidity").append("Humidity: " + response.list[0].wind.speed + "KPH")
+
+      let iconURL = icon + response.list[0].weather[0].icon + ".png"
+      fetch(iconURL)
+      .then(function (result) {
+        let icon = document.createElement("img");
+        icon.src = result.url;
+        $("#icon").append(icon)
+})
+})
 })
 })
 
-setInterval(function () {
-  let today = moment();
-  document.querySelector("#todayDate").textContent = today.format("DD/MM/YYYY");
-  })
+//$(".icon").append(response.list[0].weather[0].icon)
+            // let responseArr = response.list
+            //for (let i = 0; i < responseArr.length; i++) {
+            //}
+
+// setInterval(function () {
+//   let today = moment();
+//   document.querySelector("#todayDate").textContent = today.format("DD/MM/YYYY");
+//   })
 
 
-
+//date for next 5 days
 // setInterval(function () {
 //   let today = moment();
 //   for (let i = 0; i < 5; i++) {
 //   document.querySelector(".card-title").textContent[i] = today.format("DD/MM/YYYY" + 1);}
 //   })
-
-function buildQueryURL() {
-  let queryURL = "https://api.openweathermap.org/data/2.5/forecast?"; 
-  let queryParams = { "api-key": "8df441dea99913b147bc9d9c47561bdb" }; 
-
-  console.log(WeatherData);
-
-  queryParams.q = $("#search-input") 
-    .val() 
-    .trim(); 
-
-  let temperature = $("#temp")
-    .text()
-    .trim();
-
-  let wind = $("#wind") 
-    .text()
-    .trim();
-  
-  let humidity = $("#humidity") 
-    .text()
-    .trim();
-
-  // Logging the URL so we have access to it for troubleshooting
-  console.log("---------------\nURL: " + queryURL + "\n---------------");
-  console.log(queryURL + $.param(queryParams));
-  return queryURL + $.param(queryParams);
-}
-
-function updatePage(NYTData) {
-  // Get from the form the number of results to display
-  // API doesn't have a "limit" parameter, so we have to do this ourselves
-  var numArticles = $("#article-count").val();
-
-  // Log the NYTData to console, where it will show up as an object
-  
-
-  // Loop through and build elements for the defined number of articles
-  for (var i = 0; i < numArticles; i++) {
-    // Get specific article info for current index
-    var article = NYTData.response.docs[i];
-
-    // Increase the articleCount (track article # - starting at 1)
-    var articleCount = i + 1;
-
-    // Create the  list group to contain the articles and add the article content for each
-    var $articleList = $("<ul>");
-    $articleList.addClass("list-group");
-
-    // Add the newly created element to the DOM
-    $("#article-section").append($articleList);
-
-    // If the article has a headline, log and append to $articleList
-    var headline = article.headline; 
-    var $articleListItem = $("<li class='list-group-item articleHeadline'>"); //create li item with class
-
-    if (headline && headline.main) {
-      console.log(headline.main);
-      $articleListItem.append(
-        "<span class='label label-primary'>" +
-          articleCount +
-          "</span>" +
-          "<h2> " +
-          headline.main +
-          "</h2>"
-      );
-    }
-
-    // If the article has a byline, log and append to $articleList
-    var byline = article.byline;
-
-    if (byline && byline.original) {
-      console.log(byline.original);
-      $articleListItem.append("<h3>" + byline.original + "</h3>");
-    }
-
-    // Log section, and append to document if exists
-    var section = article.section_name;
-    console.log(article.section_name);
-    if (section) {
-      $articleListItem.append("<h5>Section: " + section + "</h5>");
-    }
-
-    // Log published date, and append to document if exists
-    var pubDate = article.pub_date;
-    console.log(article.pub_date);
-    if (pubDate) {
-      $articleListItem.append("<h5>" + article.pub_date + "</h5>");
-    }
-
-    // Append and log url
-    $articleListItem.append("<a href='" + article.web_url + "'>" + article.web_url + "</a>");
-    console.log(article.web_url);
-
-    // Append the article
-    $articleList.append($articleListItem);
-  }
-}
-
-// Function to empty out the articles
-function clear() {
-  $("#article-section").empty();
-}
-
-// CLICK HANDLERS
-// ==========================================================
-
-// .on("click") function associated with the Search Button
-$(".search-btn").on("click", function(event) {
-  // This line allows us to take advantage of the HTML "submit" property
-  // This way we can hit enter on the keyboard and it registers the search
-  // (in addition to clicks). Prevents the page from reloading on form submit.
-  event.preventDefault();
-
-  // Empty the region associated with the articles
-  clear();
-
-  // Build the query URL for the ajax request to the NYT API
-  var queryURL = buildQueryURL();
-
-  // Make the AJAX request to the API - GETs the JSON data at the queryURL.
-  // The data then gets passed as an argument to the updatePage function
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(updatePage);
-});
-
-//  .on("click") function associated with the clear button
-$("#clear-all").on("click", clear);
