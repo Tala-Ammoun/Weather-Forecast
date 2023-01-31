@@ -3,10 +3,11 @@ let key = "&appid=8df441dea99913b147bc9d9c47561bdb";
 let icon = "http://openweathermap.org/img/w/"
 let queryURL
 
-function storedData(){
-localStorage.getItem('response')
-}
-storedData()
+// function storedData(){
+// localStorage.getItem(cityName)
+// $("#cityName").append(cityName + ": ")
+// }
+// storedData()
 
 
 $(".search-btn").on("click", function () {
@@ -31,7 +32,9 @@ $(".search-btn").on("click", function () {
       localStorage.setItem(response, response)
 
       console.log(response.city.name)
-      $("#cityName").append(response.city.name + ": ")
+      let cityName = response.city.name
+      $("#cityName").append(cityName + ": ")
+      localStorage.setItem('cityName', cityName)
 
       setInterval(function () {
         let today = moment();
