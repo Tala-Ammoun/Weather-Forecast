@@ -77,7 +77,7 @@ function searchWeather(event) {
           let temp = weatherArray[i].main.temp
           let temperature = Math.round(temp.toFixed(2))
 
-          col = $("<div>").addClass("col-2")
+          let col = $("<div>").addClass("col-2")
           let card = $("<div>").addClass("card")
           let cardBody = $("<div>").addClass("card-body")
           let cardHeader = $("<div>").addClass("card-header")
