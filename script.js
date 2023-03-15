@@ -4,23 +4,17 @@ let key = "&appid=8df441dea99913b147bc9d9c47561bdb";
 let icon = "http://openweathermap.org/img/w/"
 let queryURL;
 
-// function renderStorage(storedValue) {
-//   if (storedValue !== null) {
-//     let citySearch = localStorage.getItem("lastCitySearch");
-//       searchWeather(citySearch);
-//   }
-// }
-
 function searchWeather(event) {
   event.preventDefault();
   $(".dashboard").empty();
 
   let city
 
-    if($("#search-input").val() !== ""){
-      city = $("#search-input").val(),
-      console.log(city)}
-    else(city =  $(event.currentTarget).text())
+    if ($(event.target).text() == 'Search') {
+      city = $('#search-input').val();
+    } else {
+      city = $(event.target).text();
+    }
 
     queryURL = apiURL + "q=" + city + "&limit=1" + units + key;
 
@@ -43,7 +37,6 @@ function searchWeather(event) {
       //display the weather info of searched city on the main dashboard.
       let cityName = response.city.name
       $("#cityName").append(cityName + ": ")
-      localStorage.setItem("lastCitySearch", cityName)
 
       let temp = response.list[0].main.temp //C = temp – 273.15
       let temperature = Math.round(temp.toFixed(2))
