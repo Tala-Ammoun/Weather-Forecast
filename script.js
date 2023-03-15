@@ -1,79 +1,96 @@
 let apiURL = "https://api.openweathermap.org/data/2.5/forecast?";
+let units = "&units=metric"
 let key = "&appid=8df441dea99913b147bc9d9c47561bdb";
 let icon = "http://openweathermap.org/img/w/"
-let queryURL
+let queryURL;
 
-// function storedData(){
-// localStorage.getItem(cityName)
-// $("#cityName").append(cityName + ": ")
+// function renderStorage(storedValue) {
+//   if (storedValue !== null) {
+//     let citySearch = localStorage.getItem("lastCitySearch");
+//       searchWeather(citySearch);
+//   }
 // }
-// storedData()
 
+function searchWeather(event) {
+  event.preventDefault();
+  $(".dashboard").empty();
 
-$(".search-btn").on("click", function () {
-  $(".dayForecast").empty()
-  // $("#cityName").empty()
-  // $("#temp").empty();
-  // $("#wind").empty();
-  // $("#humidity").empty();
-  // $("#icon").empty();
-  // $(".humidity").empty();
-  // $(".wind").empty();
-  // $(".temp").empty();
-  // $(".icon").empty();
+  let city
 
-  searchInput = $("#search-input").val();
-  queryURL = apiURL + "q=" + searchInput + "&limit=1" + key;
-  console.log(queryURL)
+    if($("#search-input").val() !== ""){
+      city = $("#search-input").val(),
+      console.log(city)}
+    else(city =  $(event.currentTarget).text())
 
-  fetch(queryURL)
+    queryURL = apiURL + "q=" + city + "&limit=1" + units + key;
+
+    fetch(queryURL)
     .then(response => response.json())
     .then(function (response) {
       console.log(response)
-      localStorage.setItem(response, response)
 
-      console.log(response.city.name)
-      let cityName = response.city.name
-      $("#cityName").append(cityName + ": ")
-      localStorage.setItem('cityName', cityName)
+      //if city name does not exist
+      if ((response.cod != 200)) {
+        alert("Please enter a valid city!")}
 
+      //set the time for today
       setInterval(function () {
         let today = moment();
         let todayDate = today.format("DD/MM/YYYY")
         document.querySelector("#todayDate").textContent = todayDate
       })
-      let temp = response.list[0].main.temp - 273.15 //C = temp – 273.15
+
+      //display the weather info of searched city on the main dashboard.
+      let cityName = response.city.name
+      $("#cityName").append(cityName + ": ")
+      localStorage.setItem("lastCitySearch", cityName)
+
+      let temp = response.list[0].main.temp //C = temp – 273.15
       let temperature = Math.round(temp.toFixed(2))
       console.log(temperature + "°C")
       $("#temp").append("Temp: " + temperature + "°C")
       console.log(response.list[0].main.humidity + "%")
-      $("#wind").append("Wind: " + response.list[0].main.humidity + "%")
+      $("#humidity").append("Humidity: " + response.list[0].main.humidity + "%")
       console.log(response.list[0].wind.speed + "KPH")
-      $("#humidity").append("Humidity: " + response.list[0].wind.speed + "KPH")
-      let iconURL = icon + response.list[0].weather[0].icon + ".png"
-      fetch(iconURL)
-        .then(function (result) {
-          let iconEl = document.createElement("img");
-          iconEl.src = result.url;
-          $("#icon").append(iconEl)})
+      $("#wind").append("Wind: " + response.list[0].wind.speed + "KPH")
+      let iconEl = `<img src="https://openweathermap.org/img/wn/${response.list[0].weather[0].icon}@2x.png" alt="weather-icon">`
+      $("#icon").append(iconEl)
+        })
+     
+    $("#forecast").empty()   
+    fetch(queryURL)
+    .then(data => data.json())
+    .then(function (data) {
+      console.log(data)
 
-      // for (let i = 3; i < list.length; i = i + 3) {
-      //   let temp = response.list[i].main.temp - 273.15 //C = temp – 273.15
-      //   let temperature = Math.round(temp.toFixed(2))
-      //   console.log(temperature + "°C")
-      //   $("p:nth-child(1)").append("Temp: " + temperature + "°C")
+      let weatherArray =[]
 
-      //   console.log(response.list[i].main.humidity + "%")
-      //   $("p:nth-child(2)").append("Wind: " + response.list[i].main.humidity + "%")
+      //fetch 5-day temp, humidity, wind and icon, and store them in an array
+      for (let i = 0; i < data.list.length; i++) {
+        let testTime = data.list[i].dt_txt
+         let testHour = testTime.split(" ").pop()
+         if(testHour === "12:00:00"){
+          weatherArray.push(data.list[i])
+         }
+        }
+        for (let i = 0; i < weatherArray.length; i++) {
+          let temp = weatherArray[i].main.temp
+          let temperature = Math.round(temp.toFixed(2))
 
-      //   console.log(response.list[i].wind.speed + "KPH")
-      //   $("p:nth-child(3)").append("Humidity: " + response.list[i].wind.speed + "KPH")
+          let col = $("<div>").addClass("col-2")
+          let card = $("<div>").addClass("card")
+          let cardBody = $("<div>").addClass("card-body")
+          let cardHeader = $("<div>").addClass("card-header")
+          let date = moment.unix(weatherArray[i].dt).format("ddd")
+          let tempEl = $("<p>").addClass("card-text").text("Temp: " + temperature + " °C")
+          let windEl = $("<p>").addClass("card-text").text("Wind: " + weatherArray[i].wind.speed + " KPH")
+          let humidityEl = $("<p>").addClass("card-text").text("Humidity: " + weatherArray[i].main.humidity + " %")
+          let icon = $("<img>").attr("src", `https://openweathermap.org/img/wn/${weatherArray[i].weather[0].icon}@2x.png`)
+          let cardTitle = $("<h5>").addClass("card-title").text(date)
 
-      //   let iconURL = icon + response.list[i].weather[i].icon + ".png"
-      //   fetch(iconURL)
-      //     .then(function (result) {
-      //       let icon = document.createElement("img");
-      //       icon.src = result.url;
-      //       $(".icon").append(icon)
-      //     })
-      // }
+          $("#forecast").append(col.append(card.append(cardHeader.append(cardTitle.append(icon)), cardBody.append(tempEl, windEl, humidityEl))))
+        }
+      })
+    }
+    $(".search-btn").on("click", searchWeather)
+    $(".cityNames").on("click", searchWeather) 
