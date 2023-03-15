@@ -36,30 +36,30 @@
           </div>
         </form>
         <div class="list-group" id="history">
-          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Berlin</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Paris</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Edinburgh</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Madrid</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">Birmingham</button>
-          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames">London</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames" value="Berlin">Berlin</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames" value="Paris">Paris</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames" value="EdinBurgh">Edinburgh</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames" value="Madrid">Madrid</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames" value="Birmingham">Birmingham</button>
+          <button type="button" class="btn btn-secondary btn-lg btn-block cityNames" value="London">London</button>
         </div>
       </aside>
 
       <div class="col">
       <div class="row today">
         <div class="col-4">
-        <h2 id="cityName">  </h2>
+        <h2 id="cityName" class="dashboard">  </h2>
         </div>
         <div class="col-4">
-        <h2 id="todayDate">  </h2>
+        <h2 id="todayDate" class="dashboard">  </h2>
         </div>
         <div class="col-4">
-          <p id="icon">  </p>
+          <p id="icon" class="dashboard">  </p>
           </div>
         <div class="col-12">
-          <h4 id="temp"> </h4>
-          <h4 id="wind"> </h4>
-          <h4 id="humidity"> </h4>
+          <h4 id="temp" class="dashboard"> </h4>
+          <h4 id="wind" class="dashboard"> </h4>
+          <h4 id="humidity" class="dashboard"> </h4>
         </div>
       </div>
 
@@ -67,67 +67,8 @@
       <h2 style="margin-left: 1.5%;"> 5-Day Forecast:</h2>
       </div>
 
-      <div class="row">
-          
-      <div class="col-2">
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <h6 class="card-subtitle mb-2 icon"></h6>
-          <p class="card-text">
-            <p class="temp"></p>
-            <p class="wind"></p>
-            <p class="humidity"></p>
-          </p>
-        </div>
-      </div>
-
-      <div class="col-2">
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <h6 class="card-subtitle mb-2 icon"></h6>
-          <p class="card-text">
-            <p class="temp"></p>
-            <p class="wind"></p>
-            <p class="humidity"></p>
-          </p>
-        </div>
-      </div>
-
-      <div class="col-2">
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <h6 class="card-subtitle mb-2 icon"></h6>
-          <p class="card-text">
-            <p class="temp"></p>
-            <p class="wind"></p>
-            <p class="humidity"></p>
-          </p>
-        </div>
-      </div>
-
-      <div class="col-2">
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <h6 class="card-subtitle mb-2 icon"></h6>
-          <p class="card-text">
-            <p class="temp"></p>
-            <p class="wind"></p>
-            <p class="humidity"></p>
-          </p>
-        </div>
-      </div>
-
-      <div class="col-2">
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <h6 class="card-subtitle mb-2 icon"></h6>
-          <p class="card-text">
-            <p class="temp"></p>
-            <p class="wind"></p>
-            <p class="humidity"></p>
-          </p>
-        </div>
-      </div>
+      <div class="row" id="forecast">
+      
     </div>
 
       <div class="col-lg-9 pb-3">
